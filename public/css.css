@@ -47,6 +47,12 @@ input[type=submit]:hover {
   cursor: pointer;
   font-size: 2em;
 }
+.logo {
+  width: 100%;
+}
+.logo img {
+  width: 100%;
+}
 .container {
   border-radius: 5px;
   background-color: #f2f2f2;

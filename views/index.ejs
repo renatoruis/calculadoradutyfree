@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Calculo Dutyfree</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css.css" />
+
+  </head>
+<body>
+
+
+  <h2>Quanto vai ser?</h2>
+  <p>Calculadora rápida de compras internacional com cartão de crédito.</p>
+
+
+  <% if(resultado){ %>
+    <div class="container">
+      <div class="row">
+        <div class="col-75">
+          <h1>R$ <%-JSON.stringify(result.AmountTotal).replace(/\"/g, "")%></h1>
+          <p><b>Cálculo</b></p>
+          <p><b>Cambio:</b> <%-JSON.stringify(result.rate).replace(/\"/g, "")%> </p>
+          <p><b>Valor em <%-JSON.stringify(result.codeMoney).replace(/\"/g, "")%>:</b> <%-JSON.stringify(result.amount).replace(/\"/g, "")%></p>
+          <p><b>Valor convertido em BRL: </b><%-JSON.stringify(result.AmountConverted).replace(/\"/g, "")%></p>
+          <p><b>Taxa 4%:</b> <%-JSON.stringify(result.CardFee).replace(/\"/g, "")%></p>
+          <p><b>IOF (6,38%): </b><%-JSON.stringify(result.IOFBrasil).replace(/\"/g, "")%></p>
+          <button onclick="window.location.href='/'" class="btn-voltar">VOLTAR</button>
+        </div>
+      </div>
+    </div>
+
+  <% } else{ %>
+    <div class="container">
+      <form action="/rate" method="get">
+
+        <div class="row">
+          <div class="col-75">
+            <select id="codeMoney" name="codeMoney">
+              <option value="AED">AED</option>
+              <option value="USD">USD</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-75">
+            <input type="number" id="amount" name="amount" placeholder="Valor">
+          </div>
+        </div>
+
+        <div class="row">
+          <input type="submit" value="Calcular">
+        </div>
+      </form>
+    </div>
+  <% } %>
+
+
+
+
+
+
+</body>
+</html>

@@ -18,7 +18,7 @@ app.use(express.static('public'))
 // const query = "AED_BRL"
 
 // Set response
-function composeResponse(rate, amount, codeMoney) {
+function composeResponse(rate, amount, codeMoney, nameMoney) {
   rate = Number.parseFloat(rate).toFixed(3);
   sumAmountConverted = amount * rate
   sumCardFee = (sumAmountConverted / 100) * 4
@@ -40,13 +40,14 @@ function composeResponse(rate, amount, codeMoney) {
     AmountTotal,
     amount,
     codeMoney,
+    nameMoney,
   }
   console.log(result)
   return result
 }
 
 async function fetchApiJson(code) {
-  let url = `https://free.currconv.com/api/v7/convert?apiKey=${API_KEY}&q=${code}&compact=ultra`;
+  let url = `https://free.currconv.com/api/v7/convert?apiKey=${api_key}&q=${code}&compact=ultra`;
   let settings = { method: "Get" };
   const response = await fetch(url, settings);
   const rates = await response.json();
@@ -54,14 +55,18 @@ async function fetchApiJson(code) {
 }
 
 function cacheMiddleware(req, res) {
-  const codeMoney = req.query.codeMoney;
   const amount = req.query.amount;
-  const code = `${codeMoney}_BRL`
+  const reqmoney = req.query.codeMoney;
+  const arr = reqmoney.split('|')
+  const nameMoney = arr[0]
+  const codeMoney = arr[1]
+  const code = `${codeMoney}_BRL`;
+
   client.get(code, (err, data) => {
     if (err) throw err;
     if (data !== null) {
       console.log("cache encontrado!", data)
-      const result = composeResponse(data, amount, codeMoney)
+      const result = composeResponse(data, amount, codeMoney, nameMoney)
       res.render("index", {
         result
       });
@@ -70,7 +75,7 @@ function cacheMiddleware(req, res) {
       fetchApiJson(code).then(results => {
         const data = results[code]
         client.setex(code, 86400, data);
-        const result = composeResponse(data, amount, codeMoney)
+        const result = composeResponse(data, amount, codeMoney, nameMoney)
         res.render("index", {
           result
         });

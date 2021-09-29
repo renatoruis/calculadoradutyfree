@@ -18,14 +18,37 @@
       <div class="row">
         <div class="col-75">
           <h1>R$ <%-JSON.stringify(result.AmountTotal).replace(/\"/g, "")%></h1>
-          <p><b>Cálculo</b></p>
-          <p><b>Cambio:</b> <%-JSON.stringify(result.rate).replace(/\"/g, "")%> </p>
-          <p><b>Valor em <%-JSON.stringify(result.codeMoney).replace(/\"/g, "")%>:</b> <%-JSON.stringify(result.amount).replace(/\"/g, "")%></p>
-          <p><b>Valor convertido em BRL: </b><%-JSON.stringify(result.AmountConverted).replace(/\"/g, "")%></p>
-          <p><b>Taxa 4%:</b> <%-JSON.stringify(result.CardFee).replace(/\"/g, "")%></p>
-          <p><b>IOF (6,38%): </b><%-JSON.stringify(result.IOFBrasil).replace(/\"/g, "")%></p>
+          <p>(Valor final com taxas e impostos)</p>
+
+          <div style="overflow-x:auto;">
+            <table>
+              <tr>
+                <td>Câmbio <%-JSON.stringify(result.codeMoney).replace(/\"/g, "")%> para BRL</td>
+                <td><%-JSON.stringify(result.rate).replace(/\"/g, "")%></td>
+              </tr>
+              <tr>
+                <td>Valor em <%-JSON.stringify(result.codeMoney).replace(/\"/g, "")%> <%-JSON.stringify(result.nameMoney).replace(/\"/g, "")%></td>
+                <td><%-JSON.stringify(result.amount).replace(/\"/g, "")%></td>
+              </tr>
+              <tr>
+                <td>Convertido em BRL</td>
+                <td>R$ <%-JSON.stringify(result.AmountConverted).replace(/\"/g, "")%></td>
+              </tr>
+              <tr>
+                <td>Taxa cartão 4%</td>
+                <td>R$ <%-JSON.stringify(result.CardFee).replace(/\"/g, "")%></td>
+              </tr>
+              <tr>
+                <td>IOF (6,38%)</td>
+                <td>R$ <%-JSON.stringify(result.IOFBrasil).replace(/\"/g, "")%></td>
+              </tr>
+            </table>
+          </div>
           <button onclick="window.location.href='/'" class="btn-voltar">VOLTAR</button>
         </div>
+      </div>
+      <div class="row">
+
       </div>
     </div>
 
@@ -35,16 +58,19 @@
 
         <div class="row">
           <div class="col-75">
+            <p class="label">Selecione a moeda que </p>
             <select id="codeMoney" name="codeMoney">
-              <option value="AED">AED</option>
-              <option value="USD">USD</option>
+              <option value="Dirham|AED">Dirham | AED</option>
+              <option value="Dolar Americano|USD">Dolar Americano | USD</option>
+              <option value="Peso Dominicano|DOP">Peso Dominicano | DOP</option>
+              <option value="Rand Sul Africano|ZAR">Rand Sul Africano | ZAR</option>
             </select>
           </div>
         </div>
 
         <div class="row">
           <div class="col-75">
-            <input type="number" id="amount" name="amount" placeholder="Valor">
+            <input type="number" id="amount" name="amount" placeholder="Digite o valor">
           </div>
         </div>
 

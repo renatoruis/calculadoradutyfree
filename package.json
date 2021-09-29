@@ -24,5 +24,8 @@
     "redis": "^3.0.2",
     "response-time": "^2.3.2",
     "stringify": "^5.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
   }
 }

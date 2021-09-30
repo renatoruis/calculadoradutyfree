@@ -1,90 +1,109 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Calculadora Dutyfree</title>
+    <title>Calculadora DutyFree</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css.css" />
+    <meta name="Description" CONTENT="Site que auxilia brasileiros a saber quanto sua compra vai ser no cartão de crédito">
+    <title>Example Books - high-quality used books for children</title>
+    <meta name="robots" content="noindex,nofollow">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7YLJDXLNP5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7YLJDXLNP5');
+    </script>
 
   </head>
 <body>
+  <div class="content">
 
-  <div class="logo">
-    <img src="/logo.gif">
+    <div class="container">
+        <img src="/logo.jpg"class="logo" >
+    </div>
+
+
+    <% if(resultado){ %>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <h1>R$ <%-JSON.stringify(result.AmountTotal).replace(/\"/g, "")%></h1>
+            <p>(Valor final com taxas e impostos)</p>
+
+            <div style="overflow-x:auto;">
+              <table>
+                <tr>
+                  <td>Câmbio <%-JSON.stringify(result.codeMoney).replace(/\"/g, "")%> para BRL</td>
+                  <td><%-JSON.stringify(result.rate).replace(/\"/g, "")%></td>
+                </tr>
+                <tr>
+                  <td>Valor em <%-JSON.stringify(result.codeMoney).replace(/\"/g, "")%> <%-JSON.stringify(result.nameMoney).replace(/\"/g, "")%></td>
+                  <td><%-JSON.stringify(result.amount).replace(/\"/g, "")%></td>
+                </tr>
+                <tr>
+                  <td>Convertido em BRL</td>
+                  <td>R$ <%-JSON.stringify(result.AmountConverted).replace(/\"/g, "")%></td>
+                </tr>
+                <tr>
+                  <td>Taxa cartão 4%</td>
+                  <td>R$ <%-JSON.stringify(result.CardFee).replace(/\"/g, "")%></td>
+                </tr>
+                <tr>
+                  <td>IOF (6,38%)</td>
+                  <td>R$ <%-JSON.stringify(result.IOFBrasil).replace(/\"/g, "")%></td>
+                </tr>
+              </table>
+            </div>
+            <button onclick="window.location.href='/'" class="btn-voltar">VOLTAR</button>
+          </div>
+        </div>
+        <div class="row">
+
+        </div>
+      </div>
+
+    <% } else{ %>
+      <div class="container">
+        <form action="/rate" method="get">
+
+          <div class="row">
+            <div class="col">
+              <select id="codeMoney" name="codeMoney" required>
+                <option value="">Selecione a moeda</option>
+                <option value="Dirham|AED">Dirham | AED</option>
+                <option value="Dolar Americano|USD">Dolar Americano | USD</option>
+                <option value="Peso Dominicano|DOP">Peso Dominicano | DOP</option>
+                <option value="Rand Sul Africano|ZAR">Rand Sul Africano | ZAR</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+                <input type="number" placeholder="0.00" required name="amount" min="0" step="0.01" title="amount" pattern="^\d+(?:\.\d{1,2})?$">
+            </div>
+          </div>
+
+          <div class="row">
+            <input type="submit" value="Calcular">
+          </div>
+        </form>
+      </div>
+    <% } %>
+
+
+
   </div>
-
-  <% if(resultado){ %>
-    <div class="container">
-      <div class="row">
-        <div class="col-75">
-          <h1>R$ <%-JSON.stringify(result.AmountTotal).replace(/\"/g, "")%></h1>
-          <p>(Valor final com taxas e impostos)</p>
-
-          <div style="overflow-x:auto;">
-            <table>
-              <tr>
-                <td>Câmbio <%-JSON.stringify(result.codeMoney).replace(/\"/g, "")%> para BRL</td>
-                <td><%-JSON.stringify(result.rate).replace(/\"/g, "")%></td>
-              </tr>
-              <tr>
-                <td>Valor em <%-JSON.stringify(result.codeMoney).replace(/\"/g, "")%> <%-JSON.stringify(result.nameMoney).replace(/\"/g, "")%></td>
-                <td><%-JSON.stringify(result.amount).replace(/\"/g, "")%></td>
-              </tr>
-              <tr>
-                <td>Convertido em BRL</td>
-                <td>R$ <%-JSON.stringify(result.AmountConverted).replace(/\"/g, "")%></td>
-              </tr>
-              <tr>
-                <td>Taxa cartão 4%</td>
-                <td>R$ <%-JSON.stringify(result.CardFee).replace(/\"/g, "")%></td>
-              </tr>
-              <tr>
-                <td>IOF (6,38%)</td>
-                <td>R$ <%-JSON.stringify(result.IOFBrasil).replace(/\"/g, "")%></td>
-              </tr>
-            </table>
-          </div>
-          <button onclick="window.location.href='/'" class="btn-voltar">VOLTAR</button>
-        </div>
-      </div>
-      <div class="row">
-
-      </div>
-    </div>
-
-  <% } else{ %>
-    <div class="container">
-      <form action="/rate" method="get">
-
-        <div class="row">
-          <div class="col-75">
-            <p class="label">Selecione a moeda que </p>
-            <select id="codeMoney" name="codeMoney">
-              <option value="Dirham|AED">Dirham | AED</option>
-              <option value="Dolar Americano|USD">Dolar Americano | USD</option>
-              <option value="Peso Dominicano|DOP">Peso Dominicano | DOP</option>
-              <option value="Rand Sul Africano|ZAR">Rand Sul Africano | ZAR</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-75">
-            <input type="number" id="amount" name="amount" placeholder="Digite o valor">
-          </div>
-        </div>
-
-        <div class="row">
-          <input type="submit" value="Calcular">
-        </div>
-      </form>
-    </div>
-  <% } %>
-
-
-
-
-
-
+  <p class="rodape">
+    <img src="/cafe.png" style="width: 25px !important;"/>
+    Pague-me um café
+    <br>
+    PIX: renatoruis@gmail.com
+    <br>
+    Desenvolvido por: <a href="https://www.linkedin.com/in/renatoruis/" target="_blank">Renato Ruis</a>
+  </p>
 </body>
 </html>
